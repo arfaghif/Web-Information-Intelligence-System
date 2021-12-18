@@ -3,8 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField
 from wtforms.validators import DataRequired, NumberRange
-from data import ACTORS
-from modules import get_desc_cluster, get_names, get_actor, get_id, minmax_scaler, predict_cluster
+from modules import get_desc_cluster, minmax_scaler, predict_cluster, search
 
 app = Flask(__name__)
 
@@ -25,7 +24,7 @@ class NameForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class MbaNameForm(FlaskForm):
-    name = StringField('Nama item', validators=[DataRequired()])
+    name_item = StringField('Nama item', validators=[DataRequired()])
     submit = SubmitField('Search')
 
 # all Flask routes below
@@ -46,15 +45,12 @@ def index():
 
 @app.route('/cluster/<name>/<result>')
 def cluster(name, result):
-    # run function to get actor data based on the id in the path
-    #id, name, photo = get_actor(ACTORS, id)
     days_slp, freq, amnt, cust, label = get_desc_cluster(int(result))
     if name == "Unknown":
         # redirect the browser to the error template
         return render_template('404.html'), 404
     else:
-        # pass all the data for the selected actor to the template
-        return render_template('actor.html', name=name, label=label, days=days_slp, freq=freq, amount=amnt, total=cust)
+        return render_template('segmen.html', name=name, label=label, days=days_slp, freq=freq, amount=amnt, total=cust)
 
 @app.route('/mba', methods=['GET', 'POST'])
 def mba_index():
@@ -62,8 +58,13 @@ def mba_index():
     message = ""
     if form.validate_on_submit():
         name_item = form.name_item.data
-        pass
+        return redirect( url_for('res_mba', name=name_item) )
     return render_template('mba.html', form=form, message=message)
+
+@app.route('/res_mba/<name>')
+def res_mba(name):
+    res = search(name)
+    return render_template('mba_res.html', values=res, barang=name)
 
 # 2 routes to handle errors - they have templates too
 
