@@ -55,8 +55,7 @@ def index():
         normalized_data = minmax_scaler(days_slp, freq, amnt)
         result = predict_cluster(normalized_data)
         pass
-    else:
-        message = "Data tidak valid."
+    return render_template('index.html', form=form, message=message)
 
 @app.route('/actor/<id>')
 def actor(id):
