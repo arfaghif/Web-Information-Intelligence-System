@@ -21,7 +21,7 @@ class NameForm(FlaskForm):
     name = StringField('Nama Anda', validators=[DataRequired()])
     days_since_last_purchase = IntegerField('Hari sejak terakhir pembelian', validators=[DataRequired(), NumberRange(min=0, max=None)])
     frequency = IntegerField('Jumlah barang yang dibeli', validators=[DataRequired(), NumberRange(min=0, max=None)])
-    amount = IntegerField('Harga', validators=[DataRequired(), NumberRange(min=0, max=None)])
+    amount = IntegerField('Total Harga', validators=[DataRequired(), NumberRange(min=0, max=None)])
     submit = SubmitField('Submit')
 
 
