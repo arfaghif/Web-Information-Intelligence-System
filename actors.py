@@ -24,6 +24,9 @@ class NameForm(FlaskForm):
     amount = IntegerField('Total Harga Pembelian', validators=[DataRequired(), NumberRange(min=0, max=None)])
     submit = SubmitField('Submit')
 
+class MbaNameForm(FlaskForm):
+    name = StringField('Nama item', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 # all Flask routes below
 
@@ -70,6 +73,15 @@ def cluster(name, result):
     else:
         # pass all the data for the selected actor to the template
         return render_template('actor.html', name=name, label=label, days=days_slp, freq=freq, amount=amnt, total=cust)
+
+@app.route('/mba', methods=['GET', 'POST'])
+def mba_index():
+    form = MbaNameForm()
+    message = ""
+    if form.validate_on_submit():
+        name_item = form.name_item.data
+        pass
+    return render_template('mba.html', form=form, message=message)
 
 # 2 routes to handle errors - they have templates too
 
