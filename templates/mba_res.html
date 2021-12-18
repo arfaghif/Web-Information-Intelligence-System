@@ -1,0 +1,58 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+{{ super() }}
+	<style>
+		body { background: #e8f1f9; }
+	</style>
+{% endblock %}
+
+
+{% block title %}
+Rekomendasi Barang: {{ barang }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+
+      <!-- note, the id is not used in the template -->
+
+      <h3 class="pt-5 pb-2">Kata kunci barang yang menjadi dasar rekomendasi : <strong> {{ barang }} </strong></h3>
+
+      <p><a href="{{ url_for('index') }}">Return to form page</a></p>
+
+	  <!--
+	      notice how the URL in the link above is rendered for
+	      Flask - it needs to name the FUNCTION, not the route
+      -->
+
+	  <!-- <p>Images are from <a href="https://placebear.com/">placebear</a>.</p> -->
+
+	  <p>Hasil pencarian rekomendasi barang yang telah dimasukkan adalah sebagai berikut : <br>
+      <ul>
+        {% for value in input_values %}
+            <li>{{value}}</li>
+        {% endfor %}
+        <hr>
+        
+        </ul>
+
+      Terima kasih sudah menggunakan fitur rekomendasi kami<br>
+    </p>
+
+    <!-- </div>
+    <div class="col-sm-6">
+
+      <img src="{{ photo }}" alt="Photo: {{ name }}" class="img-fluid pt-5">
+
+      <p><em>Above: {{ name }}</em></p>
+
+    </div> -->
+  </div>
+</div>
+
+{% endblock %}
