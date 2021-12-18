@@ -32,22 +32,6 @@ class MbaNameForm(FlaskForm):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    # names = get_names(ACTORS)
-    # you must tell the variable 'form' what you named the class, above
-    # 'form' is the variable name used in this template: index.html
-    # form = NameForm()
-    # message = ""
-    # if form.validate_on_submit():
-    #     name = form.name.data
-    #     if name.lower() in names:
-    #         # empty the form field
-    #         form.name.data = ""
-    #         id = get_id(ACTORS, name)
-    #         # redirect the browser to another route and template
-    #         return redirect( url_for('actor', id=id) )
-    #     else:
-    #         message = "That actor is not in our database."
-    # return render_template('index.html', names=names, form=form, message=message)
     form = NameForm()
     message = ""
     if form.validate_on_submit():
@@ -60,8 +44,6 @@ def index():
         return redirect( url_for('cluster', name=name, result=result[0]) )
     return render_template('index.html', form=form, message=message)
 
-#@app.route('/actor/<id>')
-#def actor(id):
 @app.route('/cluster/<name>/<result>')
 def cluster(name, result):
     # run function to get actor data based on the id in the path

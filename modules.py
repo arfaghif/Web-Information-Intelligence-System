@@ -29,4 +29,4 @@ def search(name):
     for i in range(len(df_match)):
         a_set.add(df_match.iloc[i]['antecedents'])
         a_set.add(df_match.iloc[i]['consequents'])
-    return a_set
+    return list(a_set)
