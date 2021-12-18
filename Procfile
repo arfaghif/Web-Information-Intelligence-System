@@ -1,1 +1,1 @@
-web: python3 segmen.py
+web: gunicorn segmen:app
