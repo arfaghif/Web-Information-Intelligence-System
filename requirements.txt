@@ -1,0 +1,3 @@
+Flask-WTF
+Flask-Bootstrap4
+gunicorn==20.1.0
