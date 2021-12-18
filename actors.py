@@ -21,7 +21,7 @@ class NameForm(FlaskForm):
     name = StringField('Nama Anda', validators=[DataRequired()])
     days_since_last_purchase = IntegerField('Hari sejak terakhir pembelian', validators=[DataRequired(), NumberRange(min=0, max=None)])
     frequency = IntegerField('Jumlah barang yang dibeli', validators=[DataRequired(), NumberRange(min=0, max=None)])
-    amount = IntegerField('Total Harga', validators=[DataRequired(), NumberRange(min=0, max=None)])
+    amount = IntegerField('Total Harga Pembelian', validators=[DataRequired(), NumberRange(min=0, max=None)])
     submit = SubmitField('Submit')
 
 
@@ -54,16 +54,16 @@ def index():
         amnt = form.amount.data
         normalized_data = minmax_scaler(days_slp, freq, amnt)
         result = predict_cluster(normalized_data)
-        pass
+        return redirect( url_for('cluster', name=name, result=result[0]) )
     return render_template('index.html', form=form, message=message)
 
 #@app.route('/actor/<id>')
-@app.route('cluster/<name>/<result>')
 #def actor(id):
+@app.route('/cluster/<name>/<result>')
 def cluster(name, result):
     # run function to get actor data based on the id in the path
     #id, name, photo = get_actor(ACTORS, id)
-    days_slp, freq, amnt, cust, label = get_desc_cluster(result)
+    days_slp, freq, amnt, cust, label = get_desc_cluster(int(result))
     if name == "Unknown":
         # redirect the browser to the error template
         return render_template('404.html'), 404

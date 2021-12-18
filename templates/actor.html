@@ -22,7 +22,7 @@ Predicted Customer: {{ name }}
       <!-- note, the id is not used in the template -->
 
       <h1 class="pt-5 pb-2">{{ name }}</h1>
-      <h1 class="pt-5 pb-2">Hasil Segmentasi Customer : <strong> {{ label }} </strong></h1>
+      <h3 class="pt-5 pb-2">Hasil Segmentasi Customer : <strong> {{ label }} </strong></h3>
 
       <p><a href="{{ url_for('index') }}">Return to form page</a></p>
 
@@ -33,12 +33,12 @@ Predicted Customer: {{ name }}
 
 	  <!-- <p>Images are from <a href="https://placebear.com/">placebear</a>.</p> -->
 
-	  <p>Cutomer segmentasi ini memiliki data rata-rata sebagai berikut : <br>
+	  <p>Cutomer segmentasi ini memiliki data sebagai berikut : <br>
       <ul>
-        <li> Rata - rata hari terakhir beli = {{ days }} hari yang lalu </li>
-        <li> Rata - rata frekuensi  = {{ freq }} </li>
-        <li> Rata - rata amount = {{ amount }} </li>
-        <li> Total customer segmentasi ini = {{ total }} </li>
+        <li> Rata - rata hari sejak terakhir pembelian = {{ days }} hari yang lalu </li>
+        <li> Rata - rata jumlah barang yang dibeli  = {{ freq }} barang </li>
+        <li> Rata - rata total harga pembelian = {{ amount }} satuan harga </li>
+        <li> Total customer pada segmentasi ini = {{ total }} orang </li>
       </ul>
 
       Terima kasih sudah menggunakan fitur segmentasi kami<br>
