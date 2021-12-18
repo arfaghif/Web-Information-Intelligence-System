@@ -45,11 +45,11 @@ def get_desc_cluster(num_label):
     df = pd.read_csv("desc_cluster")
     return df.iloc[num_label]
 
-def predict_cluster(days, freq, amount):
+def predict_cluster(normalized_data):
     # load the model from disk
     seg_cluster = pickle.load(open("desc_cluster.csv", 'rb'))
     # predict
-    result = seg_cluster.predict([[days, freq, amount]])
+    result = seg_cluster.predict(normalized_data)
     pass
 
 def minmax_scaler(days, freq, amount):
