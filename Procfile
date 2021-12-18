@@ -1,1 +1,1 @@
-python3 segmen.py
+web: python3 segmen.py
