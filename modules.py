@@ -1,3 +1,8 @@
+import pickle
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.cluster import KMeans
+
 # functions to be used by the routes
 
 # retrieve all the names from the dataset and put them into a list
@@ -37,10 +42,20 @@ def get_id(source, name):
 
 
 def get_desc_cluster(num_label):
-    pass
+    df = pd.read_csv("desc_cluster")
+    return df.iloc[num_label]
 
 def predict_cluster(days, freq, amount):
+    # load the model from disk
+    seg_cluster = pickle.load(open("desc_cluster.csv", 'rb'))
+    # predict
+    result = seg_cluster.predict([[days, freq, amount]])
     pass
 
-def minmax_scale(days, freq, amount):
-    pass
+def minmax_scaler(days, freq, amount):
+    # load the model from disk
+    scaler = pickle.load(open("desc_cluster.csv", 'rb'))
+    # predict
+    data = [[days, freq, amount]]
+    data = scaler.transform(data)
+    return data
