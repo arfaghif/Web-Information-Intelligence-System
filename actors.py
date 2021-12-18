@@ -26,7 +26,7 @@ class NameForm(FlaskForm):
 
 class MbaNameForm(FlaskForm):
     name = StringField('Nama item', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    submit = SubmitField('Search')
 
 # all Flask routes below
 
