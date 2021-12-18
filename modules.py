@@ -34,3 +34,13 @@ def get_id(source, name):
             return id
     # return these if id is not valid - not a great solution, but simple
     return "Unknown"
+
+
+def get_desc_cluster(num_label):
+    pass
+
+def predict_cluster(days, freq, amount):
+    pass
+
+def minmax_scale(days, freq, amount):
+    pass
