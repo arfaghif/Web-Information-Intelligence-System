@@ -1,10 +1,10 @@
 from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, IntegerField, SubmitField
+from wtforms.validators import DataRequired, NumberRange
 from data import ACTORS
-from modules import get_names, get_actor, get_id
+from modules import get_names, get_actor, get_id, minmax_scaler, predict_cluster
 
 app = Flask(__name__)
 
@@ -18,7 +18,10 @@ Bootstrap(app)
 # "NameForm" can change; "(FlaskForm)" cannot
 # see the route for "/" and "index.html" to see how this is used
 class NameForm(FlaskForm):
-    name = StringField('Which actor is your favorite?', validators=[DataRequired()])
+    name = StringField('Nama Anda', validators=[DataRequired()])
+    days_since_last_purchase = IntegerField('Hari sejak terakhir pembelian', validators=[DataRequired(), NumberRange(min=0, max=None)])
+    frequency = IntegerField('Jumlah barang yang dibeli', validators=[DataRequired(), NumberRange(min=0, max=None)])
+    amount = IntegerField('Harga', validators=[DataRequired(), NumberRange(min=0, max=None)])
     submit = SubmitField('Submit')
 
 
@@ -26,22 +29,34 @@ class NameForm(FlaskForm):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    names = get_names(ACTORS)
+    # names = get_names(ACTORS)
     # you must tell the variable 'form' what you named the class, above
     # 'form' is the variable name used in this template: index.html
+    # form = NameForm()
+    # message = ""
+    # if form.validate_on_submit():
+    #     name = form.name.data
+    #     if name.lower() in names:
+    #         # empty the form field
+    #         form.name.data = ""
+    #         id = get_id(ACTORS, name)
+    #         # redirect the browser to another route and template
+    #         return redirect( url_for('actor', id=id) )
+    #     else:
+    #         message = "That actor is not in our database."
+    # return render_template('index.html', names=names, form=form, message=message)
     form = NameForm()
     message = ""
     if form.validate_on_submit():
         name = form.name.data
-        if name.lower() in names:
-            # empty the form field
-            form.name.data = ""
-            id = get_id(ACTORS, name)
-            # redirect the browser to another route and template
-            return redirect( url_for('actor', id=id) )
-        else:
-            message = "That actor is not in our database."
-    return render_template('index.html', names=names, form=form, message=message)
+        days_slp = form.days_since_last_purchase.data
+        freq = form.frequency.data
+        amnt = form.amount.data
+        normalized_data = minmax_scaler(days_slp, freq, amnt)
+        result = predict_cluster(normalized_data)
+        pass
+    else:
+        message = "Data tidak valid."
 
 @app.route('/actor/<id>')
 def actor(id):
