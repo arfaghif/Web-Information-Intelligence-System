@@ -43,7 +43,7 @@ def get_id(source, name):
 
 def get_desc_cluster(num_label):
     df = pd.read_csv("desc_cluster")
-    return df.iloc[num_label]
+    return df.iloc[num_label]["days_since_last_purchase"], df.iloc[num_label]["frequency"], df.iloc[num_label]["amount"], df.iloc[num_label]["TotalCustomer"], df.iloc[num_label]["label"]
 
 def predict_cluster(normalized_data):
     # load the model from disk

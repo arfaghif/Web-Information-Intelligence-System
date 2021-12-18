@@ -4,7 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField
 from wtforms.validators import DataRequired, NumberRange
 from data import ACTORS
-from modules import get_names, get_actor, get_id, minmax_scaler, predict_cluster
+from modules import get_desc_cluster, get_names, get_actor, get_id, minmax_scaler, predict_cluster
 
 app = Flask(__name__)
 
@@ -57,16 +57,19 @@ def index():
         pass
     return render_template('index.html', form=form, message=message)
 
-@app.route('/actor/<id>')
-def actor(id):
+#@app.route('/actor/<id>')
+@app.route('cluster/<name>/<result>')
+#def actor(id):
+def cluster(name, result):
     # run function to get actor data based on the id in the path
-    id, name, photo = get_actor(ACTORS, id)
+    #id, name, photo = get_actor(ACTORS, id)
+    days_slp, freq, amnt, cust, label = get_desc_cluster(result)
     if name == "Unknown":
         # redirect the browser to the error template
         return render_template('404.html'), 404
     else:
         # pass all the data for the selected actor to the template
-        return render_template('actor.html', id=id, name=name, photo=photo)
+        return render_template('actor.html', name=name, label=label, days=days_slp, freq=freq, amount=amnt, total=cust)
 
 # 2 routes to handle errors - they have templates too
 
